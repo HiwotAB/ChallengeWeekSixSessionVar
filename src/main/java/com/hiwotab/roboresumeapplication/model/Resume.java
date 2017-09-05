@@ -71,6 +71,14 @@ public class Resume {
         this.workExperiencesSet = workExperiencesSet;
     }
 
+    public Set<Course> getTeach() {
+        return teach;
+    }
+
+    public void setTeach(Set<Course> teach) {
+        this.teach = teach;
+    }
+
     public long getId() {
         return id;
     }

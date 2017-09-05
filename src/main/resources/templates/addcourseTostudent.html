@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: header">
+    <title>Add User Resume Info</title>
+</head>
+<body>
+<!-- Header -->
+
+<section class="hero">
+    <div class="container text-center">
+        <div class="container">
+            <form class="well form-horizontal" th:action="@{/addcourseTostudent/{id}(id=${stud.id})}"  th:object="${stud} "method="post">
+                <fieldset>
+                    <!-- Form Name -->
+                    <legend align="Center">Add Course to Student </legend>
+                    <input type="hidden" th:field="${stud.id}" />
+                    <input type=hidden th:value="${stud.id}">
+                    <label th:inline="text">Adding Course for [[${stud.firstname}+' ' +${stud.lastname}]]</label>
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <!--<div  th:if="${#fields.hasErrors('courseName')}" th:errors="*{courseName}" class="well alert alert-danger" role="alert"></div>-->
+                            <select name="course" class="form-control">
+                                <option th:each="cor:${courseList}"
+                                        th:value="${cor.id}"
+                                        th:text="${cor.courseName}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Button -->
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"></label>
+                        <div class="col-md-4">
+                            <p><button type="submit" class="btn btn-success" >Add Course</button></p>
+                            <p><button type="reset" class="btn btn-warning" >Reset</span></button></p>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

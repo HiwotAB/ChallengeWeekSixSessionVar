@@ -4,16 +4,14 @@
     <title>Home Page</title>
 </head>
 <body>
-<!-- Header -->
-<header id="top" class="header">
-    <div class="text-vertical-center">
-        <h1>Welcome to Robo Resume Application</h1>
-        <h2><strong>You want to Register?</strong></h2>
-        <br>
-
-        <a href="addUser" type="submit" class="btn btn-dark btn-lg" shape="round"><strong><h3><b>Click Here</b></h3></strong></a>
+<section class="hero">
+    <div class="container text-center">
+            <h1>Welcome to Robo Resume Application</h1>
+            <br>
+        <h3><a href="addUser" type="submit"  class="btn btn-full">Create Resume</a></h3>
     </div>
-</header>
+</section>
+<div th:replace="base :: javaScript"></div>
 <div th:replace="base :: footer"></div>
 </body>
 </html>

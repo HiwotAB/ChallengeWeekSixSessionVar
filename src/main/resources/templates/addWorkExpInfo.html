@@ -6,121 +6,77 @@
 </head>
 <body>
 <!-- Header -->
-<div th:replace="base :: navlinks"></div>
-<header id="top" class="header">
-    <div class="text-vertical-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-7">
-                    <div class="header-content">
-                        <div class="header-content-inner">
-                            <div class="container">
-                                <form class="well form-horizontal" th:action="@{/addWorkExpInfo}" th:object="${newWork}" method="post">
-                                    <fieldset>
-                                        <!-- Form Name -->
-                                        <legend align="Center">Please Enter Your Work Experience Info.</legend>
-                                        <!--<input type=hidden th:field="*{resume.id}" />-->
 
-                                        <input type="hidden" th:field="*{id}" />
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Full Name</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                    <select name="resumes"  placeholder="Select Full Name" class="form-control">
-                                                        <option th:each="res:${allUser}"
-                                                                th:value="${res.id}"
-                                                                th:text="${res.firstname}+' '+ ${res.lastname}"></option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Text input-->
-                                        <div  th:if="${#fields.hasErrors('profName')}" th:errors="*{profName}" class="well alert alert-danger" role="alert"></div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Professional Name</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-                                                    <input  th:field="*{profName}" name="profName" placeholder="Enter Professional Name" class="form-control"  type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Text input-->
-                                        <div  th:if="${#fields.hasErrors('ProfLevel')}" th:errors="*{ProfLevel}" class="well alert alert-danger" role="alert"></div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Professional Level</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-level-up"></i></span>
-                                                    <input  th:field="*{ProfLevel}" name="ProfLevel" placeholder="Enter Professional Level" class="form-control"  type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Text input-->
-                                        <div  th:if="${#fields.hasErrors('orgName')}" th:errors="*{orgName}" class="well alert alert-danger" role="alert"></div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Organization Name </label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
-                                                    <input  th:field="*{orgName}" name="orgName" placeholder="Enter Organization Name" class="form-control"  type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Text input-->
-                                        <div  th:if="${#fields.hasErrors('duty')}" th:errors="*{duty}" class="well alert alert-danger" role="alert"></div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Duty</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-question-sign"></i></span>
-                                                    <input  th:field="*{duty}" name="duty" placeholder="Enter Your Duty" class="form-control"  type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Text input-->
-                                        <div  th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="well alert alert-danger" role="alert"></div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Start Date</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
-                                                    <input  th:field="*{startDate}" name="startDate" placeholder="Enter StartDate MMM,yyyy" class="form-control"  type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Text input-->
-                                        <div  th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="well alert alert-danger" role="alert" ></div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">End Date</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
-                                                    <input  th:field="*{endDate}" name="endDate" placeholder="Enter EndDate MMM,yyyy" class="form-control"  type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Button -->
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label"></label>
-                                            <div class="col-md-4">
-                                                <input th:disabled="${disSubmit}" class="btn btn-success" type="submit" value="Submit">
-                                                <!--<button type="submit" class="btn btn-success" >Submit<span class="glyphicon glyphicon-save" ></span></button>-->
-                                                <button type="reset" class="btn btn-warning">Reset</button>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                </form>
-                            </div>
+<section class="hero">
+    <div class="container text-center">
+        <div class="container">
+            <form class="well form-horizontal" th:action="@{/addWorkExpInfo/{personid}(personid=${oneresume.id})}" th:object="${newWork}" method="post">
+                <fieldset>
+
+                    <!-- Form Name -->
+                    <legend align="Center">Please Enter Your Work Experience Info.</legend>
+                    <input type="hidden" th:value="${oneresume.id}">
+                    <label th:inline="text">Adding Work Experience for [[${oneresume.firstname}+' '+${oneresume.lastname}]]</label>
+                    <input type="hidden" th:field="*{id}" />
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div  th:if="${#fields.hasErrors('profName')}" th:errors="*{profName}" class="well alert alert-danger" role="alert"></div>
+                            <input  th:field="*{profName}" name="profName" placeholder="Enter Professional Name" class="form-control"  type="text">
                         </div>
                     </div>
-                </div>
-            </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div  th:if="${#fields.hasErrors('ProfLevel')}" th:errors="*{ProfLevel}" class="well alert alert-danger" role="alert"></div>
+                            <input  th:field="*{ProfLevel}" name="ProfLevel" placeholder="Enter Professional Level" class="form-control"  type="text">
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div  th:if="${#fields.hasErrors('orgName')}" th:errors="*{orgName}" class="well alert alert-danger" role="alert"></div>
+                            <input  th:field="*{orgName}" name="orgName" placeholder="Enter Organization Name" class="form-control"  type="text">
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div  th:if="${#fields.hasErrors('duty')}" th:errors="*{duty}" class="well alert alert-danger" role="alert"></div>
+                            <input  th:field="*{duty}" name="duty" placeholder="Enter Your Duty" class="form-control"  type="text">
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div  th:if="${#fields.hasErrors('startDate')}" th:errors="startDate" class="well alert alert-danger" role="alert"></div>
+                            <input  th:field="*{startDate}" name="startDate" placeholder="Enter StartDate MMM,yyyy" class="form-control"  type="text">
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div  th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="well alert alert-danger" role="alert"></div>
+                            <input  th:field="*{endDate}" name="endDate" placeholder="Enter EndDate MMM,yyyy" class="form-control"  type="text">
+                        </div>
+                    </div>
+
+                    <!-- Button -->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input th:disabled="${disSubmit}" class="btn btn-success" type="submit" value="Submit">
+                            <!--<button type="submit" class="btn btn-success" >Submit<span class="glyphicon glyphicon-save" ></span></button>-->
+                            <button type="reset" class="btn btn-warning">Reset</button>
+                        </div>
+                    </div>
+
+                </fieldset>
+            </form>
         </div>
     </div>
-</header>
-<!--<div th:replace="base :: javaScript"></div>-->
+</section>
+
+<div th:replace="base :: javaScript"></div>
 <div th:replace="base :: footer"></div>
 </body>
 

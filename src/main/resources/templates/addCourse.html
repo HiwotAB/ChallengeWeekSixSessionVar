@@ -1,22 +1,52 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
-    <meta charset="UTF-8"/>
-    <title>Add Course Info</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: header">
+    <title>Add User Resume Info</title>
 </head>
 <body>
-<form class="form-inline" th:action="@{/addCourse}" th:object="${course}" method="post">
-    <input type="hidden" th:field="*{id}" placeholder="Enter Course name">
+<!-- Header -->
+<section class="hero">
+    <div class="container text-center">
+        <div class="container">
 
-    <div class="form-group">
-        <label>Course Name</label>
-        <input type="text" th:field="*{courseName}" placeholder="Enter Course Name">
+            <form class="well form-horizontal" th:action="@{/addCourse/{personid}(personid=${newesume.id})}" th:object="${course}" method="post">
+                <fieldset>
+                    <!-- Form Name -->
+                    <legend align="Center">Please Enter Course Information</legend>
+                    <input type="hidden" th:value="${newesume.id}">
+                    <label th:inline="text">Adding Course for [[${newesume.firstname}+' '+${newesume.lastname}]]</label>
+                    <input type="hidden" th:field="*{id}" />
+
+                <!-- Text input-->
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <div  th:if="${#fields.hasErrors('courseName')}" th:errors="*{courseName}" class="well alert alert-danger" role="alert"></div>
+                        <input  th:field="*{courseName}" name="courseName" placeholder="Enter Course Name" class="form-control"  type="text">
+                    </div>
+                </div>
+                <!-- Text input-->
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <div  th:if="${#fields.hasErrors('courseCreditHr')}" th:errors="*{courseCreditHr}" class="well alert alert-danger" role="alert"></div>
+                        <input  th:field="*{courseCreditHr}" name="courseCreditHr" placeholder="Enter Course CreditHr" class="form-control"  type="text">
+                    </div>
+                </div>
+                <!-- Button -->
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <p><button type="submit" class="btn btn-success" >Submit</button></p>
+                        <p><button type="reset" class="btn btn-warning" >Reset</span></button></p>
+                    </div>
+                </div>
+            </fieldset>
+    </form>
+        </div>
     </div>
-    <div class="form-group">
-        <label>Credit Hours </label>
-        <input type="text" th:field="*{courseCreditHr}" placeholder = "Enter Course Credit Hours">
-    </div>
-     <input type="submit" value="Submit">
-</form>
+</section>
+
+<div th:replace="base :: javaScript"></div>
+<div th:replace="base :: footer"></div>
 </body>
+
 </html>
+

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.ArrayList;
+
 @Controller
 public class MainController {
 
@@ -27,7 +27,11 @@ public class MainController {
     SkillsRepostory skillsRepostory;
     @Autowired
     CourseRepository courseRepository;
-    /*******************************home Page , default home page and Login***********************************************/
+    @Autowired
+    public SessionVar sessionVar;
+
+
+    /**************************** **home Page , default home page and Login***********************************************/
 
     @RequestMapping("/")
     public String showHomePages() {
@@ -60,6 +64,7 @@ public class MainController {
 
             return "addUser";
         }
+
         resumeRepostory.save(resume);
         return "dispUserInfo";
     }
@@ -83,30 +88,62 @@ public class MainController {
     }
     /******************Education Information to add education to modify the existing and to delete the existing education information  *******************************************************************/
   /*This method is used to dispaly a form of  education achievement to person to enter values*/
-    @GetMapping("/addEduInfo")
-    public String addEducationInfo(Model model) {
+//    @GetMapping("/addEduInfo")
+//    public String addEducationInfo(Model model) {
+//         /*Here we allow the user only has to enter 10 most recent education achivement information and
+//	    if the user or person tries to enter more than 10 information then submit button will get
+//	    disable so that they cannot enter more than ten information*/
+//        EduAchievements eduAchievements=new EduAchievements();
+//        model.addAttribute("allUser", resumeRepostory.findAll());
+//        model.addAttribute("disSubmit", eduAchievementsRepostory.count() >= 10);
+//        model.addAttribute("rowNumber", eduAchievementsRepostory.count());
+//        model.addAttribute("newEduInfo", eduAchievements);
+//        return "addEduInfo";
+//    }
+
+    @GetMapping("/addEduInfo/{id}")
+    public String addEducationInfo(@PathVariable("id") long personId, Model model) {
          /*Here we allow the user only has to enter 10 most recent education achivement information and
 	    if the user or person tries to enter more than 10 information then submit button will get
 	    disable so that they cannot enter more than ten information*/
+
+        sessionVar.setPersonId(personId);
+        Resume resume= resumeRepostory.findOne(personId);
+        model.addAttribute("newesume", resume);
         EduAchievements eduAchievements=new EduAchievements();
-        model.addAttribute("allUser", resumeRepostory.findAll());
         model.addAttribute("disSubmit", eduAchievementsRepostory.count() >= 10);
         model.addAttribute("rowNumber", eduAchievementsRepostory.count());
         model.addAttribute("newEduInfo", eduAchievements);
         return "addEduInfo";
     }
-
     /*This method is used to check the validation for each values has been entered and if it is valid data then it will save it to data base table
    * also store and check  the record of the rows in data base table*/
-    @PostMapping("/addEduInfo")
-    public String addEducationInfo(@Valid @ModelAttribute("newEduInfo") EduAchievements eduAchievements,BindingResult bindingResult,@RequestParam("resumes") long resume_id,Model model) {
+//    @PostMapping("/addEduInfo")
+//    public String addEducationInfo(@Valid @ModelAttribute("newEduInfo") EduAchievements eduAchievements,BindingResult bindingResult,@RequestParam("resumes") long resume_id,Model model) {
+//
+//        if (bindingResult.hasErrors()) {
+//            // expect at least one educational info
+//            model.addAttribute("rowNumber", eduAchievementsRepostory.count());
+//            return "addEduInfo";
+//        }
+//        eduAchievements.setResume(resumeRepostory.findOne(resume_id));
+//        eduAchievementsRepostory.save(eduAchievements);
+//        model.addAttribute("rowNumber", eduAchievementsRepostory.count());
+//        return "dispEduInfo";
+//
+//    }
+
+
+    @PostMapping("/addEduInfo/{id}")
+    public String addEducationInfo(@Valid @ModelAttribute("newEduInfo") EduAchievements eduAchievements,BindingResult bindingResult,@PathVariable("id") long personId,Model model) {
 
         if (bindingResult.hasErrors()) {
             // expect at least one educational info
             model.addAttribute("rowNumber", eduAchievementsRepostory.count());
             return "addEduInfo";
         }
-        eduAchievements.setResume(resumeRepostory.findOne(resume_id));
+        eduAchievements.setResume(resumeRepostory.findOne(personId));
+        model.addAttribute(sessionVar.getPersonId());
         eduAchievementsRepostory.save(eduAchievements);
         model.addAttribute("rowNumber", eduAchievementsRepostory.count());
         return "dispEduInfo";
@@ -114,15 +151,16 @@ public class MainController {
     }
 
     /*This method is used to modify the existing in forms then update data bas tables according to there modify fields */
+
     @RequestMapping("/updateEduInfo/{id}")
     public String updateEduInfo(@PathVariable("id") long id, Model model){
-        model.addAttribute("allUser",resumeRepostory.findOne(id));
-        model.addAttribute("newEduInfo", eduAchievementsRepostory.findOne(id));
+        EduAchievements updateEduInfo = eduAchievementsRepostory.findOne(id);
+        Resume resume = updateEduInfo.getResume();
+
+        model.addAttribute("newEduInfo", updateEduInfo );
+        model.addAttribute("resume", resume);
         return "addEduInfo";
     }
-
-
-
     /*This method is used to delete the existing data  records from data base table and dispaly the rest of data which has been there*/
     @RequestMapping("/deleteEduInfo/{id}")
     public String delEduInfo(@PathVariable("id") long id){
@@ -130,22 +168,26 @@ public class MainController {
         return "redirect:/listEduInfo";
     }
     /*This method is used to display the existing data  records from data base table*/
-    @RequestMapping("/listEduInfo")
-    public String listEduInfo(Model model){
+    @RequestMapping("/listEduInfo/{id}")
+    public String listEduInfo(@PathVariable("id") long personId,Model model){
+        model.addAttribute("newperson", resumeRepostory.findOne(personId));
         model.addAttribute("searchEdu", eduAchievementsRepostory.findAll());
         return "listEduInfo";
     }
+
+
     /***********************************************************************************************************************/
     /*********************************************Work Experiences Information to add *Work Experiences to modify the existing and to delete the existing *Work Experiences information *********************************************************/
     /*This method is used to dispaly a form of  work Experiences to person to enter values*/
-    @GetMapping("/addWorkExpInfo")
-    public String addWorkExpiInfo(Model model) {
+    @GetMapping("/addWorkExpInfo/{id}")
+    public String addWorkExpiInfo(@PathVariable("id") long personId,Model model) {
           /*Here we allow the user only has to enter 10 most recent work experience information and
 	    if the user or person tries to enter more than 10 information then submit button will get
 	    disable so that they cannot enter more than ten information*/
+        sessionVar.setPersonId(personId);
+        Resume oneresume= resumeRepostory.findOne(personId);
+        model.addAttribute("oneresume", oneresume);
         WorkExperiences workExperiences=new WorkExperiences();
-//        workExperiences.setResume(resumeRepostory.findOne(id));
-        model.addAttribute("allUser", resumeRepostory.findAll());
         model.addAttribute("disSubmit", workExperiencesRepostory.count() >= 10);
         model.addAttribute("rowNumber", workExperiencesRepostory.count());
         model.addAttribute("newWork",workExperiences);
@@ -154,14 +196,15 @@ public class MainController {
 
     /*This method is used to check the validation for each values has been entered and if it is valid data then it will save it to data base table
     * also store and check  the record of the rows in data base table*/
-    @PostMapping("/addWorkExpInfo")
-    public String addWorkExpiInfo(@Valid @ModelAttribute("newWork") WorkExperiences workExperiences,BindingResult bindingResult,@RequestParam("resumes") long resume_id,Model model) {
+    @PostMapping("/addWorkExpInfo/{personid}")
+    public String addWorkExpiInfo(@Valid @ModelAttribute("newWork") WorkExperiences workExperiences,BindingResult bindingResult,@PathVariable("personid") long personId,Model model) {
 
         if (bindingResult.hasErrors()) {
             return "addWorkExpInfo";
         }
 
-        workExperiences.setResume(resumeRepostory.findOne(resume_id));
+        workExperiences.setResume(resumeRepostory.findOne(personId));
+        model.addAttribute(sessionVar.getPersonId());
         workExperiencesRepostory.save(workExperiences);
         model.addAttribute("rowNumber", workExperiencesRepostory.count());
         return "dispWorkExpInfo";
@@ -189,13 +232,15 @@ public class MainController {
 
     /***********************************************Skills Information to add Skills to modify the existing and to delete the existing Skills information****************************************************************************/
    /*This method is used to dispaly a form of  skills to person to enter values*/
-    @GetMapping("/addSkillInfo")
-    public String addSkilsInfo(Model model) {
+    @GetMapping("/addSkillInfo/{id}")
+    public String addSkilsInfo(@PathVariable("id") long personId,Model model) {
         /*Here we allow the user only has to enter 20 skills information and
 	    if the user or person tries to enter more than 20 information then submit button will get
 	    disable so that they cannot enter more than ten information*/
+        sessionVar.setPersonId(personId);
+        Resume oneresume= resumeRepostory.findOne(personId);
+        model.addAttribute("oneresume", oneresume);
         Skills skills=new Skills();
-//        skills.setResume(resumeRepostory.findOne(id));
         model.addAttribute("allUser", resumeRepostory.findAll());
         model.addAttribute("disSubmit", skillsRepostory.count() >= 20);
         model.addAttribute("rowNumber", skillsRepostory.count());
@@ -204,23 +249,30 @@ public class MainController {
     }
     /*This method is used to check the validation for each values has been entered and if it is valid data then it will save it to data base table
      * also store and check  the record of the rows in data base table*/
-    @PostMapping("/addSkillInfo")
-    public String addSkilsInfo(@Valid @ModelAttribute("newSkill") Skills skills,BindingResult bindingResult, @RequestParam("resumes") long resume_id,Model model) {
+    @PostMapping("/addSkillInfo/{personid}")
+    public String addSkilsInfo(@Valid @ModelAttribute("newSkill") Skills skills,BindingResult bindingResult,@PathVariable("personid") long personId,Model model) {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("rowNumber", skillsRepostory.count());
             return "addSkillInfo";
         }
-        skills.setResume(resumeRepostory.findOne(resume_id));
+        skills.setResume(resumeRepostory.findOne(personId));
+        model.addAttribute(sessionVar.getPersonId());
         skillsRepostory.save(skills);
         model.addAttribute("rowNumber", skillsRepostory.count());
         return "dispSkillsInfo";
     }
 
     /*This method is used to modify the existing in forms then update data bas tables according to there modify fields */
+//    @RequestMapping("/updateSkillInfo/{id}")
+//    public String updateSkillInfo(@PathVariable("id") long id, Model model){
+//        model.addAttribute("allUser",resumeRepostory.findAll(id);
+//        model.addAttribute("newSkill", skillsRepostory.findOne(id));
+//        return "addSkillInfo";
+//    }
+
     @RequestMapping("/updateSkillInfo/{id}")
-    public String updateSkillInfo(@PathVariable("id") long id, Model model){
-        model.addAttribute("allUser",resumeRepostory.findOne(id));
+    public String updateSkillInfo(@PathVariable("id") long id, Model model) {
         model.addAttribute("newSkill", skillsRepostory.findOne(id));
         return "addSkillInfo";
     }
@@ -238,27 +290,7 @@ public class MainController {
     }
     /***************************************************************************************************/
     /*******************************Result Info***************************************************************/
-//    @GetMapping("/ResultResumeInfo")
-//    public String listAllResumeInfo(Model model) {
-//
-////        Resume resume=resumeRepostory.findOne(new Long(1));
-////
-////        ArrayList<EduAchievements> eduAchievementsArrayList=(ArrayList<EduAchievements>)eduAchievementsRepostory.findAll();
-////        resume.setEduAchieve(eduAchievementsArrayList);
-////
-////        ArrayList<Skills>skillsArrayList=(ArrayList<Skills>)skillsRepostory.findAll();
-////        resume.setSkils(skillsArrayList);
-////
-////        ArrayList<WorkExperiences>workExperiencesArrayList=(ArrayList<WorkExperiences>) workExperiencesRepostory.findAll();
-////        resume.setWorkExp(workExperiencesArrayList);
-////
-////        model.addAttribute("searchUser", resume);
-////        //model.addAttribute("searchEdu",  eduAchievementsArrayList);
-////        //model.addAttribute("searchSkil", skillsArrayList);
-////        // model.addAttribute("searchWork", workExperiencesArrayList);
-//        return "ResultResumeInfo";
-//
-//    }
+
     @RequestMapping("/EditResumedetail/{id}")
     public String viewResume(@PathVariable("id") long id, Model model) {
         Resume resumeR=resumeRepostory.findOne(id);
@@ -295,31 +327,77 @@ public class MainController {
         model.addAttribute("course",new Course());
         return "addCourse";
     }
-
     @PostMapping("/addCourse")
     public String saveCourse(@ModelAttribute("course") Course  course)
     {
         courseRepository.save(course);
-        return "dispCourseInfo";
+        return "redirect:/displayAll";
     }
-    @GetMapping("/addPersontoCourse/{id}")
-    public String addPersonCourse(@PathVariable("id") long course_Id, Model model)
-    {
-        model.addAttribute("courseList",courseRepository.findOne(new Long(course_Id)));
-        model.addAttribute("listPerson",resumeRepostory.findAll());
-        return "addPersontoCourse";
-    }
-    @PostMapping("/addPersontoCourse/{per_id}")
-    public String addPersonsCourses(@RequestParam("course") String course_Id, @PathVariable("per_id") long pers_ID,  @ModelAttribute("course") Course course, Model model)
+    @GetMapping("/loadcourse")
+    public @ResponseBody String loadcourse()
     {
 
-        Resume resume = resumeRepostory.findOne(new Long(pers_ID));
-        resume.addCourse(courseRepository.findOne(new Long(course_Id)));
-        resumeRepostory.save(resume);
-        model.addAttribute("courseList",courseRepository.findAll());
-        model.addAttribute("userList",resumeRepostory.findAll());
-        return "redirect:/";
+        Course course1 = new Course();
+        course1.setCourseName("Sql");
+        courseRepository.save(course1);
+
+        Course course2 = new Course();
+        course1.setCourseName("Java");
+        courseRepository.save(course1);
+
+        Course course3 = new Course();
+        course1.setCourseName("C#");
+        courseRepository.save(course1);
+
+        Course course4 = new Course();
+        course1.setCourseName("PHP");
+        courseRepository.save(course1);
+
+
+        return "index";
     }
+
+    @GetMapping("/listcourse")
+    public String listcourse(Model model)
+    {
+        model.addAttribute(courseRepository.findAll());
+        return "displaycourse";
+    }
+
+
+    @GetMapping("/addcourseTostudent/{id}")
+    public String addCourse(@PathVariable("id") long perID, Model model)
+    {
+
+        model.addAttribute("stud",resumeRepostory.findOne(new Long(perID)));
+        model.addAttribute("courseList",courseRepository.findAll());
+
+        return "addcourseTostudent";
+    }
+    @PostMapping("/addcourseTostudent/{id}")
+    public String addStudentToCourse(@RequestParam("stud") String perID, @PathVariable("course") long id, Model model)
+    {
+        System.out.println("Post Method:");
+        System.out.println("Actor ID"+id);
+        System.out.println("Movie ID"+perID);
+        Course course = courseRepository.findOne(new Long(id));
+        course.addResume(resumeRepostory.findOne(new Long(perID)));
+        courseRepository.save(course);
+        model.addAttribute("courseList",courseRepository.findAll());
+        model.addAttribute("studList",resumeRepostory.findAll());
+        return "redirect:/displayAll";
+    }
+    @RequestMapping("/displayAll")
+    public String showAll(Model model)
+    {
+        model.addAttribute("gotStud",resumeRepostory.count());
+        model.addAttribute("gotCourse",courseRepository.count());
+        model.addAttribute("courseList",courseRepository.findAll());
+        model.addAttribute("studList",resumeRepostory.findAll());
+        return "dispCourseInfo";
+    }
+
+
 
 
 }

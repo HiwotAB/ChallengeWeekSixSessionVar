@@ -6,73 +6,78 @@
 </head>
 <body>
 <div th:fragment="header">
-
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <title>Bell Bootstrap 4 Theme</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
 
-    <!-- Bootstrap Core CSS -->
-    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!-- Facebook Opengraph integration: https://developers.facebook.com/docs/sharing/opengraph -->
+    <meta property="og:title" content="">
+    <meta property="og:image" content="">
+    <meta property="og:url" content="">
+    <meta property="og:site_name" content="">
+    <meta property="og:description" content="">
 
+    <!-- Twitter Cards integration: https://dev.twitter.com/cards/  -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:description" content="">
+    <meta name="twitter:image" content="">
 
-    <!-- Custom CSS -->
-    <link href="../css/stylish-portfolio.css" rel="stylesheet">
-    <link href="../css/forms.css" rel="stylesheet">
-    <link href="../css/nav.css" rel="stylesheet">
-    <link href="../css/table.css" rel="stylesheet">
-    <link href="../css/codeForm.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
 
-    <!-- Custom Fonts -->
-    <link href="../../font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="/https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,500,700|Roboto:400,900" rel="stylesheet">
 
+    <!-- Bootstrap CSS File -->
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Libraries CSS Files -->
+    <link href="/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
+    <!-- Main Stylesheet File -->
+    <link href="/css/style.css" rel="stylesheet">
 
-    <!--<a href="/">index</a> - <a href="/2">Page 2</a> - <a href="/3">Page 3</a>-->
 </div>
-
-<div class="container" th:fragment="navlinks">
-
-    <div class="container" align="center">
+<header id="header">
+    <div class="container">
     <!-- Navigation -->
-    <div class="row">
-        <nav class="navbar navbar-inverse" role="navigation">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Robo Resume</a>
-                </div>
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse navbar-ex1-collapse">
-                    <ul class="nav navbar-nav js-nav-add-active-class">
-                        <li class="active"><a href="/">Home</a></li>
-                        <li><a href="/addUser">Person</a></li>
-                        <li><a href="/addEduInfo">Education</a></li>
-                        <li><a href="/addWorkExpInfo">Work Experience</a></li>
-                        <li><a href="/addSkillInfo">Skills</a></li>
-                        <!--<li><a href="/ResultResumeInfo">Resume Result In Table</a></li>-->
-                        <!--<li><a href="/SummerizedResume">View Resume</a></li>-->
-                        <li><a href="/logout">LogOut</a></li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-                </div>
-
-        </nav>
+            <nav id="nav-menu-container">
+                <ul class="nav-menu">
+                    <li class="active"><a href="/">Robo Resume Home</a></li>
+                    <li><a href="/addUser">Add New Person Info</a></li>
+                    <li><a href="/addEduInfo">Add Education Info</a></li>
+                    <li><a href="/addWorkExpInfo">Add Work Experience Info</a></li>
+                    <li><a href="/addSkillInfo">Add Skills Info</a></li>
+                    <li><a href="/logout">LogOut</a></li>
+                </ul>
+            </nav><!-- #nav-menu-container -->
     </div>
-</div>
+</header>
 </div>
 <div th:fragment="javaScript">
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/superfish/hoverIntent.js"></script>
+    <script src="/lib/superfish/superfish.min.js"></script>
+    <script src="/lib/tether/js/tether.min.js"></script>
+    <script src="/lib/stellar/stellar.min.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/lib/counterup/counterup.min.js"></script>
+    <script src="/lib/waypoints/waypoints.min.js"></script>
+    <script src="/lib/easing/easing.js"></script>
+    <script src="/lib/stickyjs/sticky.js"></script>
+    <script src="/lib/parallax/parallax.js"></script>
+    <script src="/lib/lockfixed/lockfixed.min.js"></script>
+
+    <!-- Template Specisifc Custom Javascript File -->
+    <script src="/js/custom.js"></script>
+
+    <script src="/contactform/contactform.js"></script>
 
 
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<script src="../js/bootstrap.js"></script>
-<![endif]-->
 </div>
 <div th:fragment="footer">Robo Resume Application @ copyright 2017</div>
 

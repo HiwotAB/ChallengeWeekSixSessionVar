@@ -1,5 +1,7 @@
 package com.hiwotab.roboresumeapplication.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -10,6 +12,7 @@ public class Course {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
+    @NotEmpty
     String courseName;
     String courseCreditHr;
 
@@ -22,7 +25,6 @@ public class Course {
     {
         resumeSet = new HashSet<Resume>();
     }
-
 
     public long getId() {
         return id;

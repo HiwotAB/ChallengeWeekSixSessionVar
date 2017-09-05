@@ -1,51 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="base :: header">
+    <title>Display User Resume Info</title>
 </head>
+
 <body>
-<div class="container">
-    <div class="col-md-6">
+
+<!-- Header -->
+<section class="hero">
+    <div class="container text-center">
+        <div class="container">
+            <!-- Form Name -->
+            <legend align="Center">Register New Students and Assign to Courses </legend>
+            <!-- Text input-->
+            <div class="form-group">
+                <div class="col-sm-10">
+                        <h2> New Student </h2>
+                        <a href="addUser" type="submit" class="btn btn-dark btn-lg" shape="round"><strong><h3><b>Add Student</b></h3></strong></a>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-10">
+
+                        <div  th:each="stud:${studList}" >
+
+                            <h3 th:text="${stud.firstname}+' '+${stud.lastname}">Student Name</h3>
+
+                            <a th:disabled="${gotCourse lt 1}" th:href="@{/addcourseTostudent/{id}(id=${stud.id})}">Add Course</a>
+                            <div th:each="anotherCourse:${stud.teach}">
+                                <p th:text="${anotherCourse.courseName}">
+                                <p th:text="${anotherCourse.courseCreditHr}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
-            <div th:each="moreCourse:${aPer.teach}">
-                <p th:text="${moreCourse.courseName}">
-                <p th:text="${moreCourse.courseCreditHr}">
+            <!-- Button -->
+
+
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <p><a href="addCourse"><strong>Add More Courses</strong></a></p>
+                <p><a href="homePage"><strong>Home Page</strong></a></p>
             </div>
         </div>
-
-
     </div>
-</div>
+</section>
+<div th:replace="base :: javaScript"></div>
+<div th:replace="base :: footer"></div>
 </body>
+
 </html>
-
-
-
-<div class="container">
-    <div class="col-md-6">
-        <h1>Welcome to the movie database</h1>
-
-        <div class="row align-baseline">
-            <h2>Students</h2>
-            <a th:href="@{/addUser}" class="align-baseline"> Add Student</a>
-        </div>
-
-        <div class="col-md6 col-offset-2" th:each="user:${listPerson}" >
-
-
-            <h3 th:text="${user.firstname}">Name</h3><a th:disabled="${gotactors lt 1}" th:href="@{/addPersontoCourse/{id}(id=${user.id})}">Add Course</a>
-            <div th:each="anotherCourse:${user.teach}">
-                <p th:text="${anotherCourse.courseName}">
-                <p th:text="${anotherCourse.courseCreditHr}">
-            </div>
-        </div>
-        <h2>Course</h2>
-        <div th:each="courses:${courseList}" >
-
-            <p th:text="${courses.courseName}"></p>
-        </div>
-
-    </div>
-</div>

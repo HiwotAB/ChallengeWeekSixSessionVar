@@ -8,98 +8,51 @@
 <body>
 
 <!-- Header -->
-<div th:replace="base :: navlinks"></div>
-<header id="top" class="header">
-    <div class="text-vertical-center">
+<section class="hero">
+    <div class="container text-center">
         <div class="container">
-            <div class="row">
-                <div class="col-sm-7">
-                    <div class="header-content">
-                        <div class="header-content-inner">
-                            <div class="container">
-
-                                <!--<form class="well form-horizontal" th:action="@{/addEduInfo/{id}(id=${resume.id})}" th:object="${newEduInfo}" method="post">-->
-                                <form class="well form-horizontal" th:action="@{/addEduInfo}" th:object="${newEduInfo}" method="post">
-                                    <fieldset>
-
-                                        <!-- Form Name -->
-                                        <legend align="Center">Please Enter Your Education Achievement Information</legend>
-                                        <!--<input type=hidden th:field="*{resume.id}" />-->
-                                        <!--<input  th:if="${modifymode ==0}"></input>-->
-                                        <!--<input  th:if="${editmodde} gt 0"></input>-->
-                                        <input type="hidden" th:field="*{id}" />
-                                        <!-- Text input-->
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Full Name</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                    <select name="resumes"  placeholder="Select Full Name" class="form-control">
-                                                        <option th:each="res:${allUser}"
-                                                                th:value="${res.id}"
-                                                                th:text="${res.firstname}+' '+ ${res.lastname}"></option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div  th:if="${#fields.hasErrors('eduType')}" th:errors="*{eduType}" class="well alert alert-danger" role="alert"></div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Education Filed</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-                                                    <input  th:field="*{eduType}" name="eduType" placeholder="Enter Education Type" class="form-control"  type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Text input-->
-                                        <div  th:if="${#fields.hasErrors('uniName')}" th:errors="*{uniName}" class="well alert alert-danger" role="alert"></div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Univ/College Name</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-certificate"></i></span>
-                                                    <input  th:field="*{uniName}" name="uniName" placeholder="Enter University/College Name" class="form-control"  type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Text input-->
-                                        <div  th:if="${#fields.hasErrors('grdYear')}" th:errors="*{grdYear}" class="well alert alert-danger" role="alert" data-errors-when="valueMissing"></div>
-
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Year Graduate</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                                    <input  th:field="*{grdYear}" name="grdYear" placeholder="Enter Year Graduate yyyy" class="form-control" type="text">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Button -->
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label"></label>
-                                            <div class="col-md-4">
-                                                <input th:disabled="${disSubmit}" class="btn btn-success"  type="submit" value="Submit">
-                                                <!--<button type="submit" class="btn btn-success" >Submit<span class="glyphicon glyphicon-save" ></span></button>-->
-                                                <button type="reset" class="btn btn-warning">Reset</button>
-                                            </div>
-                                        </div>
-
-                                    </fieldset>
-                                </form>
-                            </div>
-
+            <form class="well form-horizontal" th:action="@{/addEduInfo/{personid}(personid=${newesume.id})}" th:object="${newEduInfo}" method="post">
+                <fieldset>
+                    <!-- Form Name -->
+                    <legend align="Center">Please Enter Your Education Achievement Information</legend>
+                    <input type="hidden" th:value="${newesume.id}">
+                    <label th:inline="text">Adding Education for [[${newesume.firstname}+' '+${newesume.lastname}]]</label>
+                    <input type="hidden" th:field="*{id}" />
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div  th:if="${#fields.hasErrors('eduType')}" th:errors="*{eduType}" class="well alert alert-danger" role="alert"></div>
+                            <input  th:field="*{eduType}" name="eduType" placeholder="Enter Education Type" class="form-control"  type="text">
                         </div>
                     </div>
-                </div>
-
-            </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div  th:if="${#fields.hasErrors('uniName')}" th:errors="*{uniName}" class="well alert alert-danger" role="alert"></div>
+                            <input  th:field="*{uniName}" name="uniName" placeholder="Enter University/College Name" class="form-control"  type="text">
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <div  th:if="${#fields.hasErrors('grdYear')}" th:errors="*{grdYear}" class="well alert alert-danger" role="alert" data-errors-when="valueMissing"></div>
+                            <input  th:field="*{grdYear}" name="grdYear" placeholder="Enter Year Graduate yyyy" class="form-control" type="text">
+                        </div>
+                    </div>
+                   <!-- Button -->
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <input th:disabled="${disSubmit}" class="btn btn-success"  type="submit" value="Submit">
+                            <!--<button type="submit" class="btn btn-success" >Submit<span class="glyphicon glyphicon-save" ></span></button>-->
+                            <button type="reset" class="btn btn-warning">Reset</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
         </div>
-
     </div>
-</header>
-<!--<div th:replace="base :: javaScript"></div>-->
+</section>
+<div th:replace="base :: javaScript"></div>
 <div th:replace="base :: footer"></div>
 </body>
 

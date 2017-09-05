@@ -5,67 +5,66 @@
 </head>
 <body>
 <!-- Header -->
-<div th:replace="base :: navlinks"></div>
-<header id="top" class="header">
-    <div class="text-vertical-center">
-            <caption> <h4><b>Your Resume Information </b></h4></caption>
-            <!-- Text input-->
+<section class="hero">
+    <div class="container text-center">
+        <div class="container">
+
+        <!-- Text input-->
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                    <h2 th:text="${resumeR.firstname + ' ' + resumeR.lastname}"></h2>
+                    <h6 th:text="${resumeR.email}"></h6>
+             </div>
+        </div>
+
+        <div class="panel panel-default active">
+            <div class="panel-heading">
+                <caption> <h4><b>Education Achievement</b></h4></caption>
+            </div>
+            <hr/>
+                <th:block th:each="edu : ${listEdu}">
+                    <p th:text="${edu.eduType}"></p>
+                    <p th:text="${edu.uniName} +', ' + ${{edu.grdYear}}"></p>
+                    <br/>
+                </th:block>
+
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <caption> <h4><b>Work Experience</b></h4></caption>
+
+            </div>
+            <hr/>
+            <th:block th:each="exp : ${listExp}">
+                <p  th:text="${exp.profName}+ ' ' + ${exp.ProfLevel}"></p>
+                <p th:text="${exp.orgName} + ', ' + ${{exp.startDate}} + ' to ' + ${{exp.endDate}}"></p>
+                <p th:text="${exp.duty}"></p>
+                <br/>
+            </th:block>
+            <br/>
+
+        </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                        <h2 th:text="${resumeR.firstname + ' ' + resumeR.lastname}"></h2>
-                        <h6 th:text="${resumeR.email}"></h6>
-                 </div>
-            <!--</div>-->
-
-            <!--<div class="panel panel-default active">-->
-                <div class="panel-heading">
-                    <caption> <h4><b>Education Achievement</b></h4></caption>
+                  </i> <caption> <h4><b>Skills</b></h4></caption>
                 </div>
                 <hr/>
-                    <th:block th:each="edu : ${listEdu}">
-                        <p th:text="${edu.eduType}"></p>
-                        <p th:text="${edu.uniName} +', ' + ${{edu.grdYear}}"></p>
-                        <br/>
-                    </th:block>
-
-            <!--</div>-->
-            <!--<div class="panel panel-default">-->
-                <div class="panel-heading">
-                    <caption> <h4><b>Work Experience</b></h4></caption>
-
-                </div>
-                <hr/>
-                <th:block th:each="exp : ${listExp}">
-                    <p  th:text="${exp.profName}+ ' ' + ${exp.ProfLevel}"></p>
-                    <p th:text="${exp.orgName} + ', ' + ${{exp.startDate}} + ' to ' + ${{exp.endDate}}"></p>
-                    <p th:text="${exp.duty}"></p>
+                <th:block th:each="skill : ${listSkill}">
+                    <p th:text="${skill.skill} + ', ' + ${skill.rate}"></p>
                     <br/>
                 </th:block>
                 <br/>
+            </div>
 
-            <!--</div>-->
-                <!--<div class="panel panel-default">-->
-                    <div class="panel-heading">
-                      </i> <caption> <h4><b>Skills</b></h4></caption>
-                    </div>
-                    <hr/>
-                    <th:block th:each="skill : ${listSkill}">
-                        <p th:text="${skill.skill} + ', ' + ${skill.rate}"></p>
-                        <br/>
-                    </th:block>
-                    <br/>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <p><a th:href="@{/EditResumedetail/{id}(id=${resumeR.id})}"><strong>Edit Resume</strong></a></p>
-                    </div>
-                </div>
-                </div>
-
-
+            </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <p><a th:href="@{/EditResumedetail/{id}(id=${resumeR.id})}"><strong>Edit Resume</strong></a></p>
+            </div>
+        </div>
     </div>
-</header>
-<!--<div th:replace="base :: javaScript"></div>-->
+</section>
+<div th:replace="base :: javaScript"></div>
 <div th:replace="base :: footer"></div>
 </body>
 </html>

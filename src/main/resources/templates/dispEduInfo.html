@@ -6,90 +6,47 @@
 </head>
 <body>
 <!-- Header -->
-<div th:replace="base :: navlinks"></div>
-<header id="top" class="header">
-    <div class="text-vertical-center">
+<section class="hero">
+    <div class="container text-center">
         <div class="container">
-            <div class="row">
-                <div class="col-sm-7">
-                    <div class="header-content">
-                        <div class="header-content-inner">
-                            <div class="container">
-                                <form class="well form-horizontal" th:action="@{/dispEduInfo}" th:object="${newEduInfo}" method="">
+            <form class="well form-horizontal" th:action="@{/dispEduInfo}" th:object="${newEduInfo}" method="">
+                <fieldset>
+                    <!-- Form Name -->
+                    <legend align="Center">Your Education Achievement Information:</legend>
 
-                                    <fieldset>
-
-                                        <!-- Form Name -->
-                                        <legend align="Center">Your Education Achievement Information:</legend>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Full Name</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                                    <select name="resumes" placeholder="Select Full Name" class="form-control">
-                                                        <option th:text="${newEduInfo.resume.firstname}+' '+ ${newEduInfo.resume.lastname}"></option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Text input-->
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Education Type</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
-                                                    <p th:text="${newEduInfo.eduType}" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Text input-->
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Univ/College Name</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-certificate"></i></span>
-                                                    <p th:text="${newEduInfo.uniName}" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Text input-->
-
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label">Year Graduate</label>
-                                            <div class="col-md-4 inputGroupContainer">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                                                    <p th:text="${{newEduInfo.grdYear}}" />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Button -->
-                                        <div class="form-group"align="center">
-                                            <div class="col-md-4" align="center">
-                                                <p><a href="addEduInfo"><strong>More Education Achievement Information</strong></a></p>
-                                                <!--<p><a th:href="@{/addEduInfo/{id}(id=${newEduInfo.resume.id})}"><strong>More Education Achievement Information</strong></a></p>-->
-                                                <p><a href="listEduInfo"><strong>Display Education Achievement Information</strong></a></p>
-                                                <p><a href="addSkillInfo"><strong>Add Your Skill Information</strong></a></p>
-                                                <!--<p><a href="SummerizedResume"><strong>View Resume</strong></a></p>-->
-
-                                            </div>
-                                        </div>
-
-                                    </fieldset>
-                                </form>
-                            </div>
-
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <p th:text="${newEduInfo.eduType}" />
                         </div>
                     </div>
-                </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <p th:text="${newEduInfo.uniName}" />
+                        </div>
+                    </div>
+                    <!-- Text input-->
+                    <div class="form-group">
+                        <div class="col-sm-10">
+                            <p th:text="${{newEduInfo.grdYear}}" />
+                        </div>
+                    </div>
+                   </fieldset>
+            </form>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
 
+                    <p><a th:href="@{/addEduInfo/{id}(id=${personid})}"><strong>More Education Achievement Information</strong></a></p>
+                    <p><a th:href="@{/listEduInfo/{id}(id=${personid})}"><strong>Display Education Achievement Information</strong></a></p>
+                    <p><a th:href="@{/addSkillInfo/{id}(id=${personid})}"><strong>Add Skill Information</strong></a></p>
+                    <p><a th:href="@{/addWorkExpInfo/{id}(id=${personid})}"><strong>Most Recent Work Experience Information</strong></a></p>
+                </div>
             </div>
         </div>
-
     </div>
-</header>
-<!--<div th:replace="base :: javaScript"></div>-->
+</section>
+<div th:replace="base :: javaScript"></div>
 <div th:replace="base :: footer"></div>
 </body>
 
